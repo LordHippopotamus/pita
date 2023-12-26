@@ -1,9 +1,12 @@
+import NextAuthProvider from "./NextAuthProvider";
 import "./global.css";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-slate-100">
+        <NextAuthProvider>{children}</NextAuthProvider>
+      </body>
     </html>
   );
 };
