@@ -1,12 +1,12 @@
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import { XataAdapter } from "@auth/xata-adapter";
+import { XataClient } from "@/xata";
 
-const prisma = new PrismaClient();
+const client = new XataClient();
 
 const handler = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: XataAdapter(client),
   providers: [
     EmailProvider({
       server: {
@@ -23,6 +23,14 @@ const handler = NextAuth({
   pages: {
     signIn: "/auth/signin",
     verifyRequest: "/auth/verify-request",
+  },
+  callbacks: {
+    session: async ({ session, user }) => {
+      if (session?.user) {
+        session.user.id = user.id;
+      }
+      return session;
+    },
   },
 });
 
