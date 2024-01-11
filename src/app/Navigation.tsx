@@ -33,6 +33,14 @@ const Navigation = () => {
             >
               <Menu.Items className="absolute w-max right-0 bg-white shadow-md p-1 rounded-md flex flex-col gap-1">
                 <Menu.Item>
+                  <Link
+                    href="/dashboard"
+                    className="px-6 py-4 hover:bg-rose-50 active:bg-rose-100 rounded-md transition"
+                  >
+                    Dashboard
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
                   <button
                     onClick={() => signOut({ redirect: false })}
                     className="px-6 py-4 hover:bg-rose-50 active:bg-rose-100 rounded-md transition"

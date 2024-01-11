@@ -20,6 +20,7 @@ const tables = [
       { column: "user", table: "nextauth_users_accounts" },
       { column: "user", table: "nextauth_users_sessions" },
       { column: "user", table: "nextauth_sessions" },
+      { column: "owner", table: "projects" },
     ],
   },
   {
@@ -70,6 +71,16 @@ const tables = [
     ],
     revLinks: [{ column: "session", table: "nextauth_users_sessions" }],
   },
+  {
+    name: "projects",
+    columns: [
+      { name: "name", type: "string", notNull: true, defaultValue: "" },
+      { name: "owner", type: "link", link: { table: "nextauth_users" } },
+      { name: "db_pass", type: "string", notNull: true, defaultValue: "" },
+      { name: "db_name", type: "string", notNull: true, defaultValue: "" },
+      { name: "db_user", type: "string", notNull: true, defaultValue: "" },
+    ],
+  },
 ] as const;
 
 export type SchemaTables = typeof tables;
@@ -95,6 +106,9 @@ export type NextauthUsersSessionsRecord = NextauthUsersSessions & XataRecord;
 export type NextauthSessions = InferredTypes["nextauth_sessions"];
 export type NextauthSessionsRecord = NextauthSessions & XataRecord;
 
+export type Projects = InferredTypes["projects"];
+export type ProjectsRecord = Projects & XataRecord;
+
 export type DatabaseSchema = {
   nextauth_users: NextauthUsersRecord;
   nextauth_accounts: NextauthAccountsRecord;
@@ -102,6 +116,7 @@ export type DatabaseSchema = {
   nextauth_users_accounts: NextauthUsersAccountsRecord;
   nextauth_users_sessions: NextauthUsersSessionsRecord;
   nextauth_sessions: NextauthSessionsRecord;
+  projects: ProjectsRecord;
 };
 
 const DatabaseClient = buildClient();
