@@ -1,5 +1,6 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
+import YandexProvider from "next-auth/providers/yandex";
 import { XataAdapter } from "@auth/xata-adapter";
 import { XataClient } from "@/xata";
 
@@ -18,6 +19,10 @@ export const authOptions: AuthOptions = {
         },
       },
       from: process.env.EMAIL_FROM,
+    }),
+    YandexProvider({
+      clientId: process.env.YANDEX_CLIENT_ID as string,
+      clientSecret: process.env.YANDEX_CLIENT_SECRET as string,
     }),
   ],
   pages: {

@@ -1,6 +1,6 @@
 export type ButtonProps = {
   className?: string;
-  variant?: "contained" | "text";
+  variant?: "contained" | "text" | "outline";
   children: React.ReactNode;
   disabled?: boolean;
 } & React.ComponentPropsWithoutRef<"button">;
@@ -20,6 +20,19 @@ const Button = ({
           disabled
             ? "text-rose-300"
             : "text-rose-500 hover:bg-rose-50 active:bg-rose-100"
+        } ${className}`}
+        {...rest}
+      >
+        {children}
+      </button>
+    );
+
+  if (variant === "outline")
+    return (
+      <button
+        disabled={disabled}
+        className={`transition py-2 px-6 rounded-md text-rose-700 border border-rose-700 ${
+          disabled ? "opacity-50" : "hover:bg-rose-50 active:bg-rose-100"
         } ${className}`}
         {...rest}
       >
