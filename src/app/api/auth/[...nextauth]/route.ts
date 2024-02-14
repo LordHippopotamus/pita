@@ -1,6 +1,7 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import YandexProvider from "next-auth/providers/yandex";
+import GitHubProvider from "next-auth/providers/github";
 import { XataAdapter } from "@auth/xata-adapter";
 import { XataClient } from "@/xata";
 
@@ -23,6 +24,10 @@ export const authOptions: AuthOptions = {
     YandexProvider({
       clientId: process.env.YANDEX_CLIENT_ID as string,
       clientSecret: process.env.YANDEX_CLIENT_SECRET as string,
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string,
     }),
   ],
   pages: {
