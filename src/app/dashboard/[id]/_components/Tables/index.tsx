@@ -1,6 +1,6 @@
-import { MenuItem } from "@/components/ui";
 import CreateTable from "./CreateTable";
 import { getClientForProject } from "@/lib";
+import Link from "next/link";
 
 const loadTables = async (projectId: string) => {
   const client = await getClientForProject(projectId);
@@ -19,9 +19,18 @@ const Tables = async ({ projectId }: { projectId: string }) => {
 
   return (
     <aside className="bg-white p-4 rounded-r-md shadow-md min-w-32 w-fit flex flex-col gap-2">
-      {tables.map((el) => (
-        <MenuItem key={el.table_name}>{el.table_name}</MenuItem>
-      ))}
+      <ul>
+        {tables.map((el) => (
+          <li key={el.table_name}>
+            <Link
+              href={`/dashboard/${projectId}/${el.table_name}`}
+              className="block transition py-2 px-6 rounded-md hover:bg-rose-50 active:bg-rose-100"
+            >
+              {el.table_name}
+            </Link>
+          </li>
+        ))}
+      </ul>
       <CreateTable projectId={projectId} />
     </aside>
   );
