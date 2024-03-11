@@ -43,3 +43,40 @@ export const createColumn = async (state: any, formData: FormData) => {
     return { ok: false, message: e.message };
   }
 };
+
+export const createRow = async (state: any, formData: FormData) => {
+  try {
+    const projectId = formData.get("projectId");
+    const tableName = formData.get("tableName");
+    const data = Object.fromEntries(formData);
+    delete data.projectId;
+    delete data.tableName;
+
+    if (
+      !projectId ||
+      !tableName ||
+      typeof projectId !== "string" ||
+      typeof tableName !== "string"
+    )
+      throw new Error("Validation error");
+
+    const client = await getClientForProject(projectId);
+    await client.connect();
+    const query = `insert into ${tableName} (${Object.keys(data).join(
+      ", "
+    )}) values (${Object.values(data)
+      .map((el) => `'${el}'`)
+      .join(", ")})`;
+    await client.query(query);
+    await client.end();
+
+    revalidatePath("/dashboard/[id]/[tableName]");
+
+    return {
+      ok: true,
+      message: `A row has been created`,
+    };
+  } catch (e: any) {
+    return { ok: false, message: e.message };
+  }
+};
