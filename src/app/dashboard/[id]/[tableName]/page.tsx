@@ -1,6 +1,7 @@
 import { getClientForProject } from "@/lib";
 import CreateColumn from "./_components/CreateColumn";
 import CreateRow from "./_components/CreateRow";
+import TableBody from "./_components/TableBody";
 
 const loadColumns = async (projectId: string, tableName: string) => {
   const client = await getClientForProject(projectId);
@@ -38,16 +39,18 @@ const Table = async ({
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td className="border border-slate-300"></td>
-          <td className="border border-slate-300"></td>
-          <td className="border border-slate-300"></td>
-        </tr>
-      </tbody>
+      <TableBody
+        projectId={params.id}
+        tableName={params.tableName}
+        columns={columns}
+      />
       <tfoot>
         <tr>
-          <td className="border border-slate-300" scope="row">
+          <td
+            className="border border-slate-300 text-center"
+            scope="row"
+            colSpan={columns.length + 1}
+          >
             <CreateRow
               projectId={params.id}
               tableName={params.tableName}
