@@ -16,7 +16,7 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.1.1",
     "@types/pg": "^8.10.9",
-    "@xata.io/client": "^0.28.3",
+    "@xata.io/client": "^0.28.4",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "nodemailer": "^6.9.7",
