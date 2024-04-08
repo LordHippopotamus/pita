@@ -22,6 +22,7 @@ const CreateRow = ({
   tableName: string;
   columns: {
     column_name: string;
+    data_type: string;
   }[];
 }) => {
   const [state, formAction] = useFormState(createRow, initialState);
@@ -59,7 +60,9 @@ const CreateRow = ({
           >
             {columns.map((el) => (
               <label key={el.column_name}>
-                {el.column_name}
+                <span className="font-bold">{el.column_name}</span>
+                &nbsp;
+                <span className="text-sm">{el.data_type}</span>
                 <Input name={el.column_name} className="w-full" />
               </label>
             ))}
