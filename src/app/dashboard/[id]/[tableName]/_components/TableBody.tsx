@@ -30,7 +30,7 @@ const TableBody = async ({
         <tr key={item.id}>
           {columns.map(({ column_name }) => (
             <td key={column_name} className="border border-slate-300">
-              {item[column_name].toString()}
+              {String(item[column_name])}
             </td>
           ))}
           <td className="border border-slate-300" />
