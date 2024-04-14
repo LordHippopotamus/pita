@@ -1,7 +1,7 @@
 "use client";
 
 import { ActionButton } from "@/components/business";
-import { Button, Input } from "@/components/ui";
+import { Button, Input, Toggle } from "@/components/ui";
 import { Dialog } from "@headlessui/react";
 import { ExclamationCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
@@ -59,12 +59,77 @@ const CreateRow = ({
             }}
           >
             {columns.map((el) => (
-              <label key={el.column_name}>
-                <span className="font-bold">{el.column_name}</span>
-                &nbsp;
-                <span className="text-sm">{el.data_type}</span>
-                <Input name={el.column_name} className="w-full" />
-              </label>
+              <div key={el.column_name}>
+                {(el.data_type === "text" || el.data_type === "uuid") && (
+                  <div>
+                    <label htmlFor={el.column_name}>
+                      <span className="font-bold">{el.column_name}</span>
+                      &nbsp;
+                      <span className="text-sm">{el.data_type}</span>
+                    </label>
+                    <Input
+                      name={el.column_name}
+                      id={el.column_name}
+                      className="w-full"
+                    />
+                  </div>
+                )}
+                {el.data_type === "integer" && (
+                  <div>
+                    <label htmlFor={el.column_name}>
+                      <span className="font-bold">{el.column_name}</span>
+                      &nbsp;
+                      <span className="text-sm">{el.data_type}</span>
+                    </label>
+                    <Input
+                      name={el.column_name}
+                      id={el.column_name}
+                      type="number"
+                      step={1}
+                      className="w-full"
+                    />
+                  </div>
+                )}
+                {el.data_type === "real" && (
+                  <div>
+                    <label htmlFor={el.column_name}>
+                      <span className="font-bold">{el.column_name}</span>
+                      &nbsp;
+                      <span className="text-sm">{el.data_type}</span>
+                    </label>
+                    <Input
+                      name={el.column_name}
+                      type="number"
+                      step="any"
+                      className="w-full"
+                    />
+                  </div>
+                )}
+                {el.data_type === "boolean" && (
+                  <div className="flex gap-2">
+                    <label>
+                      <span className="font-bold">{el.column_name}</span>
+                      &nbsp;
+                      <span className="text-sm">{el.data_type}</span>
+                    </label>
+                    <Toggle name={el.column_name} />
+                  </div>
+                )}
+                {el.data_type === "timestamp with time zone" && (
+                  <div>
+                    <label>
+                      <span className="font-bold">{el.column_name}</span>
+                      &nbsp;
+                      <span className="text-sm">{el.data_type}</span>
+                    </label>
+                    <Input
+                      name={el.column_name}
+                      type="datetime-local"
+                      className="w-full"
+                    />
+                  </div>
+                )}
+              </div>
             ))}
 
             {!state.ok && (

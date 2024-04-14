@@ -3,12 +3,12 @@
 import { Switch } from "@headlessui/react";
 import { useState } from "react";
 
-const Toggle = ({ label, name }: { label: string; name?: string }) => {
+const Toggle = ({ label, name }: { label?: string; name?: string }) => {
   const [enabled, setEnabled] = useState(false);
   return (
     <Switch.Group>
       <div className="flex items-center">
-        <Switch.Label className="mr-4">{label}</Switch.Label>
+        {label && <Switch.Label className="mr-4">{label}</Switch.Label>}
         <Switch
           name={name}
           checked={enabled}
