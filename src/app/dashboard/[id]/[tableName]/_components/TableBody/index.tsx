@@ -1,4 +1,5 @@
 import { getClientForProject } from "@/lib";
+import TableCell from "./TableCell";
 
 const loadRows = async (projectId: string, tableName: string) => {
   const client = await getClientForProject(projectId);
@@ -29,9 +30,12 @@ const TableBody = async ({
       {rows.map((item) => (
         <tr key={item.id}>
           {columns.map(({ column_name }) => (
-            <td key={column_name} className="border border-slate-300">
-              {String(item[column_name])}
-            </td>
+            <TableCell
+              content={item[column_name]}
+              column={column_name}
+              key={column_name}
+              id={item.id}
+            />
           ))}
           <td className="border border-slate-300" />
         </tr>

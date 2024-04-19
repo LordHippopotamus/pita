@@ -80,3 +80,25 @@ export const createRow = async (state: any, formData: FormData) => {
     return { ok: false, message: e.message };
   }
 };
+
+export const changeRecord = async (
+  projectId: string,
+  table: string,
+  column: string,
+  value: string,
+  recordId: string
+) => {
+  const client = await getClientForProject(projectId);
+  await client.connect();
+  await client.query(
+    `UPDATE ${table} SET ${column} = '${value}' WHERE id = ${recordId}`
+  );
+  await client.end();
+
+  revalidatePath("/dashboard/[id]/[tableName]");
+
+  return {
+    ok: true,
+    message: `A row has been updated`,
+  };
+};
