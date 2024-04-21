@@ -2,7 +2,7 @@ import NextAuth, { AuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import YandexProvider from "next-auth/providers/yandex";
 import GitHubProvider from "next-auth/providers/github";
-import { XataAdapter } from "@auth/xata-adapter";
+import { XataAdapter } from "@next-auth/xata-adapter";
 import { XataClient } from "@/xata";
 
 const client = new XataClient();
