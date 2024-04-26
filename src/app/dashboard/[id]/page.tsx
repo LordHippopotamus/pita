@@ -1,3 +1,3 @@
-const Project = () => "select the table";
+const ProjectPage = () => null;
 
-export default Project;
+export default ProjectPage;
