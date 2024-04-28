@@ -29,7 +29,7 @@ const ProjectLayout = ({
   }, [pathname, router, params.id]);
 
   return (
-    <div className="my-4 flex gap-2 max-w-full mr-2">
+    <div className="my-4 flex gap-4 max-w-full">
       <aside>
         <ul className="bg-white p-4 rounded-r-md shadow-md min-w-32 w-fit flex flex-col gap-2 h-fit">
           {items.map((el) => (
@@ -55,9 +55,7 @@ const ProjectLayout = ({
           ))}
         </ul>
       </aside>
-      <div className="max-w-full overflow-x-auto bg-white rounded-md p-4 self-start shadow-md">
-        {children}
-      </div>
+      <div className="max-w-full self-start">{children}</div>
     </div>
   );
 };
