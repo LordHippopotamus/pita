@@ -1,5 +1,6 @@
 import { getClientForProject } from "@/lib";
 import TableCard from "./_components/TableCard";
+import CreateTable from "./_components/CreateTable";
 
 const loadTables = async (projectId: string) => {
   const client = await getClientForProject(projectId);
@@ -25,6 +26,7 @@ const Schema = async ({ params }: { params: { id: string } }) => {
             <TableCard projectId={params.id} tableName={el.table_name} />
           </li>
         ))}
+        <CreateTable />
       </ul>
     </div>
   );
