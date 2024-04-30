@@ -1,4 +1,5 @@
 import { getClientForProject } from "@/lib";
+import CreateColumn from "./CreateColumn";
 
 const loadColumsInfo = async (projectId: string, tableName: string) => {
   const client = await getClientForProject(projectId);
@@ -26,7 +27,7 @@ const TableCard = async ({
   const columns = await loadColumsInfo(projectId, tableName);
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-md">
+    <div className="p-4 pb-0 bg-white shadow-md rounded-md">
       <h4 className="text-lg font-bold text-center text-rose-500 border-b border-slate-200 pb-2">
         {tableName}
       </h4>
@@ -53,6 +54,9 @@ const TableCard = async ({
             )}
           </li>
         ))}
+        <li className="py-2">
+          <CreateColumn tableName={tableName} />
+        </li>
       </ul>
     </div>
   );
