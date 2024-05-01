@@ -1,19 +1,12 @@
 "use client";
 
-import { ActionButton } from "@/components/business";
 import { Button, Input, Toggle } from "@/components/ui";
 import { Dialog } from "@headlessui/react";
 import { ExclamationCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
-import { createRow } from "../actions";
+import { useState } from "react";
+import { createRecord } from "../actions";
 
-const initialState = {
-  ok: true,
-  message: "",
-};
-
-const CreateRow = ({
+const CreateRecord = ({
   projectId,
   tableName,
   columns,
@@ -25,19 +18,38 @@ const CreateRow = ({
     data_type: string;
   }[];
 }) => {
-  const [state, formAction] = useFormState(createRow, initialState);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    if (state.ok && state.message) return handleClose();
-  }, [state]);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    setLoading(true);
+    try {
+      await createRecord({
+        projectId,
+        tableName,
+        data: Object.fromEntries(formData),
+      });
+      setOpen(false);
+    } catch (error: any) {
+      setError(error.message);
+    }
+    setLoading(false);
+  };
 
   return (
     <>
-      <Button onClick={handleOpen} variant="text" aria-label="create project">
+      <Button
+        onClick={handleOpen}
+        variant="text"
+        className="w-full flex justify-center"
+        aria-label="create project"
+      >
         <PlusIcon className="w-6" />
       </Button>
       <Dialog
@@ -50,13 +62,8 @@ const CreateRow = ({
             Create a row
           </Dialog.Title>
           <form
+            onSubmit={handleSubmit}
             className="mt-2 relative flex flex-col gap-2"
-            method="POST"
-            action={(formData) => {
-              formData.append("projectId", projectId);
-              formData.append("tableName", tableName);
-              return formAction(formData);
-            }}
           >
             {columns.map((el) => (
               <div key={el.column_name}>
@@ -132,20 +139,22 @@ const CreateRow = ({
               </div>
             ))}
 
-            {!state.ok && (
+            {error && (
               <div className="border border-rose-500 bg-rose-50 p-4 mt-2 rounded-lg">
                 <div className="flex items-center gap-1">
                   <ExclamationCircleIcon className="w-8 text-rose-500" />
-                  <span>{state.message}</span>
+                  <span>{error}</span>
                 </div>
               </div>
             )}
 
             <div className="mt-4 flex gap-2 justify-end">
-              <ActionButton variant="text" onClick={handleClose}>
+              <Button disabled={loading} variant="text" onClick={handleClose}>
                 Cancel
-              </ActionButton>
-              <ActionButton type="submit">Create</ActionButton>
+              </Button>
+              <Button disabled={loading} type="submit">
+                Create
+              </Button>
             </div>
           </form>
         </Dialog.Panel>
@@ -154,4 +163,4 @@ const CreateRow = ({
   );
 };
 
-export default CreateRow;
+export default CreateRecord;

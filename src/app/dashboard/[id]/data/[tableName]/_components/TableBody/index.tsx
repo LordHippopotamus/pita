@@ -37,7 +37,6 @@ const TableBody = async ({
               id={item.id}
             />
           ))}
-          <td className="border border-slate-300" />
         </tr>
       ))}
     </tbody>
