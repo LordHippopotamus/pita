@@ -6,6 +6,7 @@ import { ExclamationCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { createColumn } from "../actions";
 import { useParams } from "next/navigation";
+import { dataTypes } from "@/lib/dataTypes";
 
 const CreateColumn = ({ tableName }: { tableName: string }) => {
   const { id: projectId } = useParams<{ id: string }>();
@@ -75,14 +76,10 @@ const CreateColumn = ({ tableName }: { tableName: string }) => {
             <label>
               <Select
                 name="type"
-                items={[
-                  { id: "text", label: "Text" },
-                  { id: "real", label: "Real" },
-                  { id: "integer", label: "Integer" },
-                  { id: "boolean", label: "Boolean" },
-                  { id: "uuid", label: "UUID" },
-                  { id: "timestamp with time zone", label: "Timestamp" },
-                ]}
+                items={dataTypes.map((el) => ({
+                  id: el.type,
+                  label: el.label,
+                }))}
               />
               Select a data type of the column
             </label>

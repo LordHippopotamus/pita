@@ -1,6 +1,7 @@
 import { getClientForProject } from "@/lib";
 import CreateRow from "./_components/CreateRecord";
 import TableBody from "./_components/TableBody";
+import { getLabelByType } from "@/lib/dataTypes";
 
 const loadColumns = async (projectId: string, tableName: string) => {
   const client = await getClientForProject(projectId);
@@ -32,7 +33,9 @@ const Table = async ({
               >
                 <div className="flex flex-col">
                   <span>{el.column_name}</span>
-                  <span className="font-normal text-sm">{el.data_type}</span>
+                  <span className="font-normal text-sm">
+                    {getLabelByType(el.data_type)}
+                  </span>
                 </div>
               </th>
             ))}

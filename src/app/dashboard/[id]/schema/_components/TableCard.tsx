@@ -1,5 +1,6 @@
 import { getClientForProject } from "@/lib";
 import CreateColumn from "./CreateColumn";
+import { getLabelByType } from "@/lib/dataTypes";
 
 const loadColumsInfo = async (projectId: string, tableName: string) => {
   const client = await getClientForProject(projectId);
@@ -39,7 +40,9 @@ const TableCard = async ({
           >
             <div className="flex justify-between items-center gap-4">
               <span className="font-semibold ">{el.column_name}</span>
-              <span className="text-xs tracking-wider">{el.data_type}</span>
+              <span className="text-xs tracking-wider">
+                {getLabelByType(el.data_type)}
+              </span>
             </div>
             {el.is_nullable === "NO" && (
               <div className="mt-1">
