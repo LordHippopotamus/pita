@@ -1,6 +1,10 @@
 "use client";
 
-import { CircleStackIcon, TableCellsIcon } from "@heroicons/react/24/outline";
+import {
+  CircleStackIcon,
+  Cog6ToothIcon,
+  TableCellsIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -8,6 +12,7 @@ import { useEffect } from "react";
 const items = [
   { label: "Data", url: "data" },
   { label: "Schema", url: "schema" },
+  { label: "Connection", url: "connection" },
 ];
 
 const ProjectLayout = ({
@@ -46,9 +51,12 @@ const ProjectLayout = ({
               >
                 {el.url === "data" ? (
                   <TableCellsIcon className="w-6" />
-                ) : (
+                ) : el.url === "schema" ? (
                   <CircleStackIcon className="w-6" />
+                ) : (
+                  <Cog6ToothIcon className="w-6" />
                 )}
+
                 {el.label}
               </Link>
             </li>
