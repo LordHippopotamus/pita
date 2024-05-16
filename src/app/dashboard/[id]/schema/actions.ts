@@ -6,10 +6,13 @@ import { revalidatePath } from "next/cache";
 export const createTable = async (projectId: string, name: string) => {
   const client = await getClientForProject(projectId);
   await client.connect();
-  await client.query(`create table ${name} (id uuid)`);
+  await client.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
+  await client.query(`CREATE TABLE ${name} (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY
+  )`);
   await client.end();
 
-  revalidatePath("/dashboard/[id]");
+  revalidatePath("/dashboard/[id]", "page");
 };
 
 export const createColumn = async ({
