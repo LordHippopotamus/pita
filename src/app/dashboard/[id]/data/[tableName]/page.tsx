@@ -21,7 +21,7 @@ const Table = async ({
   const columns = await loadColumns(params.id, params.tableName);
 
   return (
-    <div className="bg-white p-4 rounded-md shadow-md">
+    <div className="bg-white p-4 rounded-md shadow-md w-fit">
       <table className="border border-slate-300">
         <thead>
           <tr>

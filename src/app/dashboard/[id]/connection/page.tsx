@@ -8,7 +8,7 @@ const Settings = async ({ params }: { params: { id: string } }) => {
   if (!project) throw new Error(`project with id ${params.id} does not exist`);
 
   return (
-    <div className="rounded-md shadow-md p-4 bg-white">
+    <div className="rounded-md shadow-md w-fit p-4 bg-white">
       <h3 className="text-xl font-bold text-rose-500 text-center">
         Connection
       </h3>

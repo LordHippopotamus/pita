@@ -3,6 +3,7 @@
 import {
   CircleStackIcon,
   Cog6ToothIcon,
+  CubeIcon,
   TableCellsIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -12,6 +13,7 @@ import { useEffect } from "react";
 const items = [
   { label: "Data", url: "data" },
   { label: "Schema", url: "schema" },
+  { label: "Storage", url: "storage" },
   { label: "Connection", url: "connection" },
 ];
 
@@ -52,6 +54,8 @@ const ProjectLayout = ({
                 {el.url === "data" ? (
                   <TableCellsIcon className="w-6" />
                 ) : el.url === "schema" ? (
+                  <CubeIcon className="w-6" />
+                ) : el.url === "storage" ? (
                   <CircleStackIcon className="w-6" />
                 ) : (
                   <Cog6ToothIcon className="w-6" />
@@ -63,7 +67,7 @@ const ProjectLayout = ({
           ))}
         </ul>
       </aside>
-      <div className="max-w-full self-start">{children}</div>
+      <div className="max-w-full grow self-start mr-4">{children}</div>
     </div>
   );
 };
