@@ -3,15 +3,17 @@ import { promises as fs } from "fs";
 import { getServerSession } from "next-auth";
 import path from "path";
 
-const loadFileInfo = async (file: string) => {
+const getUser = async () => {
   const session = await getServerSession(authOptions);
   if (!session?.user) throw Error("Unauthorized");
+  return session.user;
+};
 
-  const filePath = path.join(
-    process.env.STORAGE_DIR as string,
-    session.user.id,
-    file
-  );
+const loadFileInfo = async (file: string) => {
+  const user = await getUser();
+
+  const filePath = path.join(process.env.STORAGE_DIR as string, user.id, file);
+
   return await fs.stat(filePath);
 };
 
@@ -22,6 +24,7 @@ const Storage = async ({
 }) => {
   if (!searchParams.file) return;
 
+  const user = await getUser();
   const fileInfo = await loadFileInfo(searchParams.file);
 
   return (
@@ -56,6 +59,13 @@ const Storage = async ({
           {fileInfo.birthtime.toLocaleString()}
         </span>
       </li>
+      <a
+        href={`/api/storage/${user.id}/${searchParams.file}`}
+        target="_blank"
+        className="text-center mt-2 transition py-2 px-6 rounded-md text-white bg-rose-500 hover:bg-rose-600 active:bg-rose-700"
+      >
+        Download Link
+      </a>
     </ul>
   );
 };
