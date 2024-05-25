@@ -1,0 +1,14 @@
+name: pita
+
+services:
+  nextjs:
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
+  postgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_PASSWORD=${PGPASSWORD}
