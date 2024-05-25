@@ -1,6 +1,0 @@
-{
-  "databaseURL": "https://Daniel-s-workspace-s6gj91.eu-central-1.xata.sh/db/pita",
-  "codegen": {
-    "output": "src/xata.ts"
-  }
-}

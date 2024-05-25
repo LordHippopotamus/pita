@@ -1,11 +1,12 @@
-import { getXataClient } from "@/xata";
+import { PrismaClient } from "@prisma/client";
 import { Client } from "pg";
 
 export const getClientForProject = async (projectId: string) => {
-  const xata = getXataClient();
+  const prisma = new PrismaClient();
 
-  const project = await xata.db.projects.filter({ id: projectId }).getFirst();
-
+  const project = await prisma.project.findFirst({
+    where: { id: { equals: projectId } },
+  });
   if (!project) throw new Error(`project with id ${projectId} does not exist`);
 
   const host = process.env.PGHOST;

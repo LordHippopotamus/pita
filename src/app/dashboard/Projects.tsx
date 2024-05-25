@@ -1,14 +1,17 @@
-import { getXataClient } from "@/xata";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib";
+import { PrismaClient } from "@prisma/client";
 
 const loadProjects = async () => {
-  const xata = getXataClient();
   const session = await getServerSession(authOptions);
   if (!session?.user) throw redirect("/auth/signin");
-  return await xata.db.projects.filter({ owner: session.user.id }).getAll();
+
+  const prisma = new PrismaClient();
+  return await prisma.project.findMany({
+    where: { ownerId: { equals: session.user.id } },
+  });
 };
 
 const Projects = async () => {

@@ -2,13 +2,13 @@ import { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import YandexProvider from "next-auth/providers/yandex";
 import GitHubProvider from "next-auth/providers/github";
-import { XataAdapter } from "@next-auth/xata-adapter";
-import { XataClient } from "@/xata";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 
-const client = new XataClient();
+const prisma = new PrismaClient();
 
 export const authOptions = {
-  adapter: XataAdapter(client),
+  adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
       server: {
