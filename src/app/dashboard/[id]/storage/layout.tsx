@@ -4,6 +4,7 @@ import path from "path";
 import { promises as fs } from "fs";
 import Link from "next/link";
 import { DocumentIcon } from "@heroicons/react/24/outline";
+import UploadFile from "./UploadFile";
 
 const loadFiles = async () => {
   const session = await getServerSession(authOptions);
@@ -30,20 +31,23 @@ const StorageLayout = async ({ children }: { children: React.ReactNode }) => {
         Storage
       </h3>
       <div className="flex gap-4">
-        <ul className="flex flex-col gap-2 max-h-screen overflow-y-auto">
-          {!files.length && "No files"}
-          {files.map((el) => (
-            <li key={el}>
-              <Link
-                href={"?file=" + el}
-                className="flex items-center gap-1 hover:bg-rose-50 p-4 rounded cursor-pointer"
-              >
-                <DocumentIcon className="w-6 h-6" />
-                {el}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <UploadFile />
+          <ul className="flex flex-col gap-2 max-h-screen overflow-y-auto mt-2">
+            {!files.length && "No files"}
+            {files.map((el) => (
+              <li key={el}>
+                <Link
+                  href={"?file=" + el}
+                  className="flex items-center gap-1 hover:bg-rose-50 p-4 rounded cursor-pointer"
+                >
+                  <DocumentIcon className="w-6 h-6" />
+                  {el}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
         {children}
       </div>
     </div>
