@@ -3,6 +3,7 @@
 import { getClientForProject } from "@/lib";
 import { revalidatePath } from "next/cache";
 
+// TODO: wrong revalidate path
 export const createRecord = async ({
   projectId,
   tableName,

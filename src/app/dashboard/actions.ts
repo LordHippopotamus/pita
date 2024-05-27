@@ -1,5 +1,7 @@
 "use server";
 
+import { s3 } from "@/lib/s3";
+import { CreateBucketCommand } from "@aws-sdk/client-s3";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -18,7 +20,7 @@ export const createProject = async (
   await prisma.$queryRawUnsafe(
     `CREATE DATABASE ${db_name} WITH OWNER ${db_user}`
   );
-  await prisma.project.create({
+  const project = await prisma.project.create({
     data: {
       name,
       db_name,
@@ -27,6 +29,9 @@ export const createProject = async (
       db_user,
     },
   });
+  await s3.send(
+    new CreateBucketCommand({ Bucket: project.ownerId + project.id })
+  );
 
   revalidatePath("/dashboard");
 };

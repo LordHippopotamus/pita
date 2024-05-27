@@ -38,6 +38,6 @@ export const createColumn = async ({
     } ${defaultValue && "default '" + defaultValue + "'"}`
   );
   await client.end();
-
+  // TODO: wrong revalidate path
   revalidatePath("/dashboard/[id]/[tableName]");
 };

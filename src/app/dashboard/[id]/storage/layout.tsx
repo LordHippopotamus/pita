@@ -1,29 +1,35 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib";
-import path from "path";
-import { promises as fs } from "fs";
 import Link from "next/link";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import UploadFile from "./UploadFile";
+import { redirect } from "next/navigation";
+import { s3 } from "@/lib/s3";
+import { ListObjectsCommand } from "@aws-sdk/client-s3";
 
-const loadFiles = async () => {
+const loadFiles = async (projectId: string) => {
   const session = await getServerSession(authOptions);
-  if (!session?.user) throw Error("Unauthorized");
-
-  const folderPath = path.join(
-    process.env.STORAGE_DIR as string,
-    session.user.id
-  );
+  if (!session?.user) redirect("/auth/signin");
 
   try {
-    return await fs.readdir(folderPath);
+    const res = await s3.send(
+      new ListObjectsCommand({ Bucket: session.user.id + projectId })
+    );
+    if (!res.Contents) return [];
+    return res.Contents.map((el) => el.Key);
   } catch (e: any) {
     return [];
   }
 };
 
-const StorageLayout = async ({ children }: { children: React.ReactNode }) => {
-  const files = await loadFiles();
+const StorageLayout = async ({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { id: string };
+}) => {
+  const files = await loadFiles(params.id);
 
   return (
     <div className="rounded-md shadow-md p-4 bg-white w-fit">

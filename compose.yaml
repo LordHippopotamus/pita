@@ -7,8 +7,12 @@ services:
       - 3000:3000
     depends_on:
       - postgres
+      - localstack
 
   postgres:
     image: "postgres"
     environment:
       - POSTGRES_PASSWORD=${PGPASSWORD}
+
+  localstack:
+    image: localstack/localstack:s3-latest

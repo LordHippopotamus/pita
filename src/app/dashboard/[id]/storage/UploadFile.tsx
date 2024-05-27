@@ -4,18 +4,44 @@ import { Button } from "@/components/ui";
 import { useState } from "react";
 import { uploadFile } from "./actions";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { useParams } from "next/navigation";
+
+const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result.split(",")[1]);
+      } else {
+        reject(new Error("Invalid result type"));
+      }
+    };
+
+    reader.onerror = () => {
+      reject(reader.error);
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
 
 const UploadFile = () => {
   const [file, setFile] = useState<null | File>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
+  const params = useParams<{ id: string }>();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+
+    if (!file) return;
+
+    const base64 = await fileToBase64(file);
+
     try {
       setLoading(true);
-      await uploadFile(formData);
+      await uploadFile(params.id, { name: file.name, body: base64 });
     } catch (e: any) {
       setError(e.message);
     } finally {
