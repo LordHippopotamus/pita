@@ -1,16 +1,40 @@
 name: pita
 
 services:
-  nextjs:
-    build: .
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - 3001:3000
+    env_file:
+      - .env.prod
+    depends_on:
+      - postgres
+      - localstack
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
       - 3000:3000
+      - 5555:5555
+    env_file:
+      - .env.local
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: rebuild
+          path: package.json
     depends_on:
       - postgres
       - localstack
 
   postgres:
-    image: "postgres"
+    image: "postgres:16.3-alpine3.20"
     environment:
       - POSTGRES_PASSWORD=${PGPASSWORD}
 
