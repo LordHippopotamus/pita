@@ -32,7 +32,11 @@ const CreateRecordForm = ({
                 &nbsp;
                 <span className="text-sm">{getLabelByType(el.data_type)}</span>
               </label>
-              <TextArea className="w-full min-h-16 h-64" />
+              <TextArea
+                name={el.column_name}
+                id={el.column_name}
+                className="w-full min-h-16 h-64"
+              />
             </div>
           )}
           {(el.data_type === "uuid" ||
