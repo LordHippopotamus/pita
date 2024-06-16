@@ -18,13 +18,13 @@ const Settings = async ({ params }: { params: { id: string } }) => {
         <li className="flex items-center">
           <span className="font-bold">host:&nbsp;</span>
           <span className="block bg-slate-100 p-2 rounded tracking-widest select-all">
-            {process.env.PGHOST}
+            {process.env.DB_HOST}
           </span>
         </li>
         <li className="flex items-center">
           <span className="font-bold">port:&nbsp;</span>
           <span className="block bg-slate-100 p-2 rounded tracking-widest select-all">
-            {process.env.PGPORT}
+            {process.env.DB_PORT}
           </span>
         </li>
         <li className="flex items-center">
